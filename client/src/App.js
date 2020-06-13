@@ -9,14 +9,14 @@ import PrivateRoute from './components/PrivateRoute';
 function App() {
   return (
     <Router>
-      {/* <ul>
+      <ul>
         <li>
           <Link to='/login'>Login</Link>
         </li>
         <li>
           <Link to='/protected'>Protected Page</Link>
         </li>
-      </ul> */}
+      </ul>
       <div className="App">
         <PrivateRoute exact path='/protected' component={BubblePage} />
         <Route exact path="/" render={(props)=> <Login {...props}/>} />
