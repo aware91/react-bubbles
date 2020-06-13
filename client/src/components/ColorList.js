@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import {useParams, useHistory} from 'react-router-dom';
 import axiosWithAuth from "../utils/axiosWithAuth";
+import { unstable_batchedUpdates } from "react-dom";
 
 const initialColor = {
   color: "",
@@ -32,10 +33,17 @@ const ColorList = ({ colors, updateColors }) => {
       .then(res=>{
         console.log('ColorList.js=>saveEdit=>.put=>res', res)
         setColorToEdit(res.data)
-      })
-      .get('/colors')
+        axiosWithAuth()
+          .get('/colors')
+          .then(res=>{
+            console.log('BubblePage.js=>.get=>res.data', res.data)
+            updateColors(res.data)
+          })
+          .catch(err=>{
+            console.log('BubblePage.js=>.get=>err', err)
+          })})
       .catch(err=>console.log('ColorList.js=>saveEdit=>.put=>err',err.message, err.response))
-  };
+  }
 
   const deleteColor = color => {
     // make a delete request to delete this color
@@ -43,8 +51,10 @@ const ColorList = ({ colors, updateColors }) => {
       .delete(`/colors/${color.id}`)
       .then(res=>{
         console.log('deleteColor=>res', res.data)
-        setColorToEdit(res.data)})
-        .catch(err=>console.log('deleteColor=>err', err.message, err.response))
+        setColorToEdit(res.data)
+        document.location.reload(true)
+      })
+      .catch(err=>console.log('deleteColor=>err', err.message, err.response))
   };
 
   return (
