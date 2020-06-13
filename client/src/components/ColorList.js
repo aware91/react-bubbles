@@ -33,6 +33,7 @@ const ColorList = ({ colors, updateColors }) => {
         console.log('ColorList.js=>saveEdit=>.put=>res', res)
         setColorToEdit(res.data)
       })
+      .get('/colors')
       .catch(err=>console.log('ColorList.js=>saveEdit=>.put=>err',err.message, err.response))
   };
 
