@@ -31,22 +31,15 @@ const ColorList = ({ colors, updateColors }) => {
       .put(`/colors/${colorToEdit.id}`, colorToEdit)
       .then(res=>{
         console.log('ColorList.js=>saveEdit=>.put=>res', res)
-        // const newColor = colors.map(color => {
-        //   if (color.id === colorToEdit.id) {
-        //     return colorToEdit
-        //   } 
-        //   return color
-        // })
         setColorToEdit(res.data)
-        // push(`/protected`)
       })
       .catch(err=>console.log('ColorList.js=>saveEdit=>.put=>err',err.message, err.response))
   };
 
   const deleteColor = color => {
     // make a delete request to delete this color
-    axios
-      .delete(`http://locolhost:5000/api/colors/${params.id}`)
+    axiosWithAuth()
+      .delete(`/colors/${color.id}`)
       .then(res=>{
         console.log('deleteColor=>res', res.data)
         setColorToEdit(res.data)})
